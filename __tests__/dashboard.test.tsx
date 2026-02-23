@@ -1,7 +1,7 @@
-import Page from "@/app/dashboard/(overview)/page";
-import RootLayout from "@/app/dashboard/layout";
-import Layout from "@/app/dashboard/layout";
-import { ProfileInfo, QuizCollection } from "@/app/lib/definition";
+import Page from "@/app/(pages)/dashboard/(overview)/page";
+import RootLayout from "@/app/(pages)/dashboard/layout";
+import Layout from "@/app/(pages)/dashboard/layout";
+import { ProfileInfo, QuizCollection } from "@/app/_lib/definition";
 import '@testing-library/jest-dom';
 import { render, screen } from "@testing-library/react";
 

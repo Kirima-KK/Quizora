@@ -1,5 +1,5 @@
-import { connectToDatabase } from "../../lib/db";
-import { ProfileInfo } from "../../lib/definition";
+import { connectToDatabase } from "../../_lib/db";
+import { ProfileInfo } from "../../_lib/definition";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {

@@ -1,7 +1,7 @@
-import { QuizCollection } from '@/app/lib/definition';
+import { QuizCollection } from '@/app/_lib/definition';
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
-import QuizHistory from '@/app/dashboard/quiz-history/page';
+import QuizHistory from '@/app/(pages)/dashboard/quiz-history/page';
 
 // Mock Quizes
 jest.mock('@/app/ui/quiz/quizes', () => ({

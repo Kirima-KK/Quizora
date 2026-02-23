@@ -1,4 +1,4 @@
-import { Quiz } from '@/app/ui/quiz/quiz-game';
+import { Quiz } from '@/app/_components/quiz/quiz-game';
 import '@testing-library/jest-dom';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 

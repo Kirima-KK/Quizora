@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import "./ui/globals.css";
+import "./_components/ui/globals.css";
 
 export const metadata: Metadata = {
   title: "Quizora",

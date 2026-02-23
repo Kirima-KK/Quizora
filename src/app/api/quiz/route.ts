@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { connectToDatabase } from "../../lib/db"
-import { QuizInfo } from "../../lib/definition";
+import { connectToDatabase } from "../../_lib/db"
+import { QuizInfo } from "../../_lib/definition";
 
 export async function GET(req: NextRequest) {
   try {

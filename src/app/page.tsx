@@ -1,7 +1,7 @@
 import { Metadata } from "next";
-import { nunito_sans, poppins } from "./ui/font";
+import { nunito_sans, poppins } from "./_components/ui/font";
 import Link from "next/link";
-import WhiteLogo from '@/app/assets/icons/quizora-white.svg';
+import WhiteLogo from '@/app/_assets/icons/quizora-white.svg';
 
 export const metadata: Metadata = {
   title: "Quizora",

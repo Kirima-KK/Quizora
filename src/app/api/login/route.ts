@@ -1,4 +1,4 @@
-import { connectToDatabase } from "@/app/lib/db";
+import { connectToDatabase } from "@/app/_lib/db";
 import { NextResponse } from "next/server";
 import bcrypt from 'bcrypt';
 import jwt from "jsonwebtoken";

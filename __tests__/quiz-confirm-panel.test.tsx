@@ -1,4 +1,4 @@
-import { QuizConfirmPanel } from "@/app/ui/quiz/quiz-confirm-panel";
+import { QuizConfirmPanel } from "@/app/_components/quiz/quiz-confirm-panel";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
 
