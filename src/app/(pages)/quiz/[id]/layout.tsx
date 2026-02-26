@@ -1,7 +1,7 @@
 import "@/app/_components/ui/globals.css";
 import SearchBar from "../../../_components/search-bar";
-import SideNav from "../../../_components/dashboard/sidenav";
-import Avatar from "../../../_components/dashboard/avatar";
+import SideNav from "../../../_components/dashboard/sidenav/sidenav";
+import Avatar from "../../../_components/dashboard/profile/avatar";
 import { Breadcrumb } from "../../../_components/breadcrumb";
 import { fetchCurrentUser } from "../../../_lib/users";
 import { Suspense } from "react";

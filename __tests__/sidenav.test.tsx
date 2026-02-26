@@ -1,8 +1,8 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
-import SideNav from "@/app/_components/dashboard/sidenav";
+import SideNav from "@/app/_components/dashboard/sidenav/sidenav";
 import '@testing-library/jest-dom'
 import { useLogout } from "@/app/hooks/useSubmit";
-import NavLinks from "@/app/_components/dashboard/nav-links";
+import NavLinks from "@/app/_components/dashboard/sidenav/nav-links";
 
 //Mock next/link
 jest.mock("next/link", () => {

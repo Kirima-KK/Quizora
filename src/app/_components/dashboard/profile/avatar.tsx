@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { poppins } from "../ui/font";
+import { poppins } from "../../ui/font";
 import { ProfileInfo } from "@/app/_lib/definition";
 
 export default function Avatar({ user }: { user: ProfileInfo }) {

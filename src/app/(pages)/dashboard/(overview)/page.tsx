@@ -1,5 +1,5 @@
 import { fetchQuizes } from "@/app/_lib/quizes";
-import Profile from "@/app/_components/dashboard/profile";
+import Profile from "@/app/_components/dashboard/profile/profile";
 import { poppins } from "@/app/_components/ui/font";
 import Quizes from "@/app/_components/quiz/quizes";
 import ProfileSkeleton from "@/app/_components/skeleton/profile-skeleton";

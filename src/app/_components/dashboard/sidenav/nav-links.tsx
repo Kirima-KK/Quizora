@@ -5,7 +5,7 @@ import Dashboard from "@/app/_assets/icons/ic_round-space-dashboard.svg";
 import History from "@/app/_assets/icons/ic_twotone-history.svg";
 import clsx from 'clsx';
 import { usePathname } from "next/navigation";
-import { poppins } from "../ui/font";
+import { poppins } from "../../ui/font";
 
 const links = [
   { name: 'Dashboard', href: '/dashboard', icon: Dashboard },
