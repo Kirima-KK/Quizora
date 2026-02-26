@@ -1,5 +1,3 @@
-'use client';
-
 import Image from "next/image";
 import { poppins } from "../ui/font";
 import { ProfileInfo } from "@/app/_lib/definition";

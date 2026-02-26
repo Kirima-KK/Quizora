@@ -1,4 +1,3 @@
-import { ProfileInfo } from "@/app/_lib/definition";
 import { fetchQuizById, fetchQuizHistoryByQuizId } from "@/app/_lib/quizes";
 import { fetchCurrentUser } from "@/app/_lib/users";
 import { Quiz } from "@/app/_components/quiz/quiz-game";
