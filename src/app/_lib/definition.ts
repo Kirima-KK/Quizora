@@ -71,3 +71,12 @@ export interface QuizBreadcrumb {
   quizName: string;
   isQuizId: boolean;
 }
+
+export interface ButtonInfo {
+  size: string,
+  label: string,
+  type: "submit" | "reset" | "button" | undefined,
+  isDisabled: boolean,
+  isLoading: boolean,
+  onClick: () => void,
+}

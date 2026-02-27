@@ -2,12 +2,13 @@
 
 import { useFormik } from "formik";
 import { useState } from "react";
-import { LoginInfo } from "../_lib/definition";
+import { ButtonInfo, LoginInfo } from "../_lib/definition";
 import * as Yup from 'yup';
 import { useLoginSubmit } from "../_hooks/useSubmit";
 import { Spinner } from '@heroui/react';
 import WhiteLogo from '@/app/_assets/icons/quizora-white.svg';
 import BlueLogo from '@/app/_assets/icons/quizora-blue.svg';
+import { BlueButton } from "./ui/buttons";
 
 export function Login() {
   const { isLoading, response, submit } = useLoginSubmit();
@@ -27,6 +28,15 @@ export function Login() {
   });
 
   const togglePasswordVisibility = () => setPasswordVisible(prev => !prev);
+
+  const loginButtonInfo: ButtonInfo = {
+    size: "w-full md:w-full h-16",
+    label: "Login",
+    type: "submit",
+    isDisabled: isLoading,
+    isLoading: isLoading,
+    onClick: () => { },
+  }
 
   return (
     <>
@@ -93,15 +103,7 @@ export function Login() {
               {formik.errors.password && formik.touched.password ? <div className="text-[var(--theme-red)]">{formik.errors.password}</div> : null}
             </div>
             {response.type === 'error' ? <div className="text-[var(--theme-red)]">{response.message}</div> : null}<br /><br />
-            <button
-              disabled={isLoading ? true : false}
-              type="submit"
-              className="w-full flex items-center justify-center bg-[var(--theme-blue)] text-white text-lg h-16 rounded-lg p-4 
-              disabled:bg-[var(--theme-grey)] 
-              hover:bg-white hover:text-[var(--theme-blue)] hover:border hover:border-[var(--theme-blue)]"
-            >
-              {isLoading ? <Spinner size="lg" className="text-white" /> : "Login"}
-            </button>
+            <BlueButton info={loginButtonInfo} />
           </form>
         </div>
       </div>
