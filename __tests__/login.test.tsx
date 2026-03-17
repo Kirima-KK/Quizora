@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
 import { act, fireEvent, render, renderHook, screen, waitFor } from '@testing-library/react';
-import { Login } from '@/app/ui/login';
+import { Login } from '@/app/_components/login';
 import { useLoginSubmit } from '@/app/hooks/useSubmit';
 
 //Mock White Logo

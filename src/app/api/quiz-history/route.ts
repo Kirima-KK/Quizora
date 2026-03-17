@@ -1,5 +1,5 @@
-import { connectToDatabase } from "@/app/lib/db";
-import { UserQuizAnswer } from "@/app/lib/definition";
+import { connectToDatabase } from "@/app/_lib/db";
+import { UserQuizAnswer } from "@/app/_lib/definition";
 import { ObjectId } from "mongodb";
 import { NextRequest, NextResponse } from "next/server";
 

@@ -1,4 +1,4 @@
-import { QuizPanel } from "@/app/ui/quiz/quiz-panel";
+import { QuizPanel } from "@/app/_components/quiz/quiz-panel";
 import "@testing-library/jest-dom";
 import { fireEvent, render, screen } from "@testing-library/react";
 import { useQuizSubmit } from "@/app/hooks/useSubmit";

@@ -1,4 +1,4 @@
-import Avatar from "@/app/ui/dashboard/avatar";
+import Avatar from "@/app/_components/dashboard/profile/avatar";
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 

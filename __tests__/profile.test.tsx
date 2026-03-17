@@ -1,4 +1,4 @@
-import Profile from "@/app/ui/dashboard/profile";
+import Profile from "@/app/_components/dashboard/profile/profile";
 import '@testing-library/jest-dom';
 import { render, screen } from "@testing-library/react";
 

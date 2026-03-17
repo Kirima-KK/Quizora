@@ -1,5 +1,5 @@
-import { connectToDatabase } from '@/app/lib/db';
-import { verifyJwt } from '@/app/lib/jwt';
+import { connectToDatabase } from '@/app/_lib/db';
+import { verifyJwt } from '@/app/_lib/jwt';
 import { ObjectId } from 'mongodb';
 import { NextRequest, NextResponse } from 'next/server';
 
