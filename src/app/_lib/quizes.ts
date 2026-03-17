@@ -153,7 +153,7 @@ export const fetchUserQuizData = async (userId: string) => {
 
     data.quizHistory.forEach((history: QuizHistoryItem) => {
       if (history.quizStatus) quizResult.quizPassed += 1;
-      quizResult.correctAnswers += history.score;
+      if(history.score) quizResult.correctAnswers += history.score;
     });
 
     return quizResult;
