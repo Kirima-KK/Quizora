@@ -14,7 +14,6 @@ export const fetchQuizes = async (page: number) => {
       const text = await res.text();
       throw new Error(`Request failed: ${text}`);
     }
-    console.log(`baseUrl: ${baseUrl}`);
     const data = await res.json();
 
     return data;
