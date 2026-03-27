@@ -9,7 +9,6 @@ export const fetchCurrentUser = async () => {
   const cookie = await getCookie('session');
   const res = await fetch(`${serverConfig.backendHost}/api/current-user`, {
     method: 'GET',
-    credentials: 'include',
     headers: {
       Cookie: `session=${cookie}`
     }

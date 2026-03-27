@@ -10,7 +10,6 @@ export async function handleLogin(data: LoginInfo) {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email, password }),
-    credentials: 'include',
   });
 
   if (response.ok) {
@@ -24,7 +23,6 @@ export async function handleLogin(data: LoginInfo) {
 export async function logoutHandler() {
   const response = await fetch(`${serverConfig.backendHost}/api/logout`, {
     method: 'POST',
-    credentials: 'include',
   });
 
   if (response.ok) {

@@ -1,14 +1,21 @@
-import { headers } from "next/headers";
 import { QuizCollection, QuizHistoryItem, QuizInfo, UserResults } from "./definition";
+import serverConfig from "../_config/server.config";
+import { cookies } from "next/headers";
+
+const getCookie = async (name: string) => {
+  return (await cookies()).get(name)?.value ?? '';
+}
 
 export const fetchQuizes = async (page: number) => {
   try {
-    const host = (await headers()).get("host");
-    const protocol = process.env.NODE_ENV === "production" ? "https" : "http";
+    const cookie = await getCookie('session');
 
-    const baseUrl = `${protocol}://${host}`;
-
-    const res = await fetch(`${baseUrl}/api/quiz?page=${page}`);
+    const res = await fetch(`${serverConfig.backendHost}/api/quiz?page=${page}`, {
+      method: 'GET',
+      headers: {
+        Cookie: `session=${cookie}`
+      }
+    });
 
     if (!res.ok) {
       const text = await res.text();
@@ -25,11 +32,14 @@ export const fetchQuizes = async (page: number) => {
 
 export const fetchQuizById = async (id: string) => {
   try {
-    const host = (await headers()).get("host");
-    const protocol = process.env.NODE_ENV === "production" ? "https" : "http";
+    const cookie = await getCookie('session');
 
-    const baseUrl = `${protocol}://${host}`;
-    const res = await fetch(`${baseUrl}/api/quiz/${id}`);
+    const res = await fetch(`${serverConfig.backendHost}/api/quiz/${id}`, {
+      method: 'GET',
+      headers: {
+        Cookie: `session=${cookie}`
+      }
+    });
 
     if (!res.ok) {
       const text = await res.text();
@@ -46,12 +56,14 @@ export const fetchQuizById = async (id: string) => {
 
 export const fetchQuizByQuery = async (query: string) => {
   try {
-    const host = (await headers()).get("host");
-    const protocol = process.env.NODE_ENV === "production" ? "https" : "http";
+    const cookie = await getCookie('session');
 
-    const baseUrl = `${protocol}://${host}`;
-
-    const quizes = await fetch(`${baseUrl}/api/quiz`);
+    const quizes = await fetch(`${serverConfig.backendHost}/api/quiz`, {
+      method: 'GET',
+      headers: {
+        Cookie: `session=${cookie}`
+      }
+    });
 
     if (!quizes.ok) {
       const text = await quizes.text();
@@ -74,12 +86,14 @@ export const fetchQuizByQuery = async (query: string) => {
 
 export const fetchQuizHistoryByQuizId = async (userId: string, quizId: string) => {
   try {
-    const host = (await headers()).get("host");
-    const protocol = process.env.NODE_ENV === "production" ? "https" : "http";
+    const cookie = await getCookie('session');
 
-    const baseUrl = `${protocol}://${host}`;
-
-    const quizHistoryByUser = await fetch(`${baseUrl}/api/quiz-history/${userId}`);
+    const quizHistoryByUser = await fetch(`${serverConfig.backendHost}/api/quiz-history/${userId}`, {
+      method: 'GET',
+      headers: {
+        Cookie: `session=${cookie}`
+      }
+    });
 
     if (!quizHistoryByUser.ok) {
       const text = await quizHistoryByUser.text();
@@ -99,14 +113,20 @@ export const fetchQuizHistoryByQuizId = async (userId: string, quizId: string) =
 
 export const fetchUserQuizHistory = async (userId: string, page: number) => {
   try {
-    const host = (await headers()).get("host");
-    const protocol = process.env.NODE_ENV === "production" ? "https" : "http";
-
-    const baseUrl = `${protocol}://${host}`;
+    const cookie = await getCookie('session');
 
     const [quizHistoryRes, quizRes] = await Promise.all([
-      fetch(`${baseUrl}/api/quiz-history/${userId}`),
-      fetch(`${baseUrl}/api/quiz?page=${page}`)
+      fetch(`${serverConfig.backendHost}/api/quiz-history/${userId}`, {
+        headers: {
+          Cookie: `session=${cookie}`
+        }
+      }),
+      fetch(`${serverConfig.backendHost}/api/quiz?page=${page}`, {
+        credentials: 'include',
+        headers: {
+          Cookie: `session=${cookie}`
+        }
+      })
     ]);
 
     if (!quizHistoryRes.ok || !quizRes.ok) {
@@ -135,12 +155,14 @@ export const fetchUserQuizHistory = async (userId: string, page: number) => {
 
 export const fetchUserQuizData = async (userId: string) => {
   try {
-    const host = (await headers()).get("host");
-    const protocol = process.env.NODE_ENV === "production" ? "https" : "http";
+    const cookie = await getCookie('session');
 
-    const baseUrl = `${protocol}://${host}`;
-
-    const quizHistory = await fetch(`${baseUrl}/api/quiz-history/${userId}`);
+    const quizHistory = await fetch(`${serverConfig.backendHost}/api/quiz-history/${userId}`, {
+      method: 'GET',
+      headers: {
+        Cookie: `session=${cookie}`
+      }
+    });
 
     if (!quizHistory.ok) {
       const text = await quizHistory.text();
@@ -152,7 +174,7 @@ export const fetchUserQuizData = async (userId: string) => {
 
     data.quizHistory.forEach((history: QuizHistoryItem) => {
       if (history.quizStatus) quizResult.quizPassed += 1;
-      if(history.score) quizResult.correctAnswers += history.score;
+      if (history.score) quizResult.correctAnswers += history.score;
     });
 
     return quizResult;
