@@ -1,3 +1,4 @@
+import serverConfig from "../_config/server.config";
 import { QuizHistoryItem } from "./definition";
 
 export const postQuizResult = async (quizResult: QuizHistoryItem) => {
@@ -9,10 +10,13 @@ export const postQuizResult = async (quizResult: QuizHistoryItem) => {
   const quizStatus = quizResult.quizStatus;
 
   try {
-    const res = await fetch('/api/quiz-history', {
+    const res = await fetch(`${serverConfig.backendHost}/api/quiz-history`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ quizId, userId, answers, submittedDate, score, quizStatus })
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ quizId, userId, answers, submittedDate, score, quizStatus }),
+      credentials: "include",
     })
 
     const data = await res.json();
