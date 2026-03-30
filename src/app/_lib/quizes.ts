@@ -140,10 +140,9 @@ export const fetchUserQuizHistory = async (userId: string, page: number) => {
       quizRes.json()
     ])
 
-    const quizHistoryId = quizHistory.quizHistory.map((history: QuizHistoryItem) => history.quizId);
-    const filteredQuiz = quizes.quizes.filter((quiz: QuizInfo) => quizHistoryId.includes(quiz._id));
-    const ITEMS_PER_PAGE = Number(process.env.ITEMS_PER_PAGE);
-    const totalPages = Math.ceil(filteredQuiz.length / ITEMS_PER_PAGE);
+    const quizHistoryId = new Set(quizHistory.quizHistory.quizHistory.map((history: QuizHistoryItem) => String(history.quizId)));
+    const filteredQuiz = quizes.quizes.filter((quiz: QuizInfo) => quizHistoryId.has(String(quiz._id)));
+    const totalPages = quizHistory.quizHistory.totalPages;
     const filteredQuizData: QuizCollection = { quizes: filteredQuiz, totalPages: totalPages };
 
     return filteredQuizData;
@@ -172,7 +171,7 @@ export const fetchUserQuizData = async (userId: string) => {
     const data = await quizHistory.json();
     let quizResult: UserResults = { quizPassed: 0, correctAnswers: 0 };
 
-    data.quizHistory.forEach((history: QuizHistoryItem) => {
+    data.quizHistory.quizHistory.forEach((history: QuizHistoryItem) => {
       if (history.quizStatus) quizResult.quizPassed += 1;
       if (history.score) quizResult.correctAnswers += history.score;
     });
