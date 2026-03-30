@@ -26,6 +26,8 @@ export const useLoginSubmit = () => {
         message: `Login Success.`
       });
 
+      console.log("DEBUG:on submit login.");
+
       router.push('/dashboard');
     } catch (e) {
       setResponse({
