@@ -26,7 +26,7 @@ export const useLoginSubmit = () => {
         message: `Login Success.`
       });
 
-      console.log("DEBUG:on submit login.");
+      console.log("DEBUG: Redirecting to dashboard...");
 
       router.push('/dashboard');
     } catch (e) {
@@ -35,6 +35,8 @@ export const useLoginSubmit = () => {
         message: 'Email or password is incorrect.'
       });
 
+      setIsLoading(false);
+    } finally {
       setIsLoading(false);
     }
   }
