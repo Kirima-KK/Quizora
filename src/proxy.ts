@@ -5,8 +5,8 @@ import { jwtVerify } from 'jose';
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const token = request.cookies.get('session')?.value;
-  console.log("MIDDLEWARE DEBUG: Path:", request.nextUrl.pathname);
-  console.log("MIDDLEWARE DEBUG: Token exists:", !!token);
+
+  console.log("All Cookies:", request.cookies.getAll());
 
   // PUBLIC PATHS
   const isPublicPath = pathname === '/login' || pathname === '/';
