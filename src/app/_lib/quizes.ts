@@ -101,7 +101,7 @@ export const fetchQuizHistoryByQuizId = async (userId: string, quizId: string) =
     }
 
     const data = await quizHistoryByUser.json();
-    const quizHistoryByQuizId = data.quizHistory.quizHistory.filter((quiz: QuizHistoryItem) => quiz.quizId === quizId);
+    const quizHistoryByQuizId = data.quizHistory.filter((quiz: QuizHistoryItem) => quiz.quizId === quizId);
 
     if (quizHistoryByUser.ok && quizHistoryByQuizId) {
       return quizHistoryByQuizId;
