@@ -3,7 +3,7 @@ import CorrectIcon from "@/app/_assets/icons/akar-icons_circle-check-fill.svg";
 import { poppins } from "../../ui/font";
 import { ProfileInfo, UserResults } from "@/app/_lib/definition";
 
-export default async function ProfileDetail({ user, quizResult }: { user: ProfileInfo, quizResult: UserResults | undefined }) {
+export default function ProfileDetail({ user, quizResult }: { user: ProfileInfo, quizResult: UserResults | undefined }) {
   const quizPassed = quizResult ? quizResult.quizPassed : '-';
   const correctAnswers = quizResult ? quizResult.correctAnswers : '-';
 

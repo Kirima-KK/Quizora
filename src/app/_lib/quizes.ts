@@ -1,15 +1,8 @@
 import { QuizCollection, QuizHistoryItem, QuizInfo, UserResults } from "./definition";
 import serverConfig from "../_config/server.config";
-import { cookies } from "next/headers";
-
-const getCookie = async (name: string) => {
-  return (await cookies()).get(name)?.value ?? '';
-}
 
 export const fetchQuizes = async (page: number) => {
   try {
-    const cookie = await getCookie('session');
-
     const res = await fetch(`${serverConfig.backendHost}/api/quiz?page=${page}`, {
       method: 'GET',
       credentials: 'include',
@@ -30,8 +23,6 @@ export const fetchQuizes = async (page: number) => {
 
 export const fetchQuizById = async (id: string) => {
   try {
-    const cookie = await getCookie('session');
-
     const res = await fetch(`${serverConfig.backendHost}/api/quiz/${id}`, {
       method: 'GET',
       credentials: 'include',
@@ -52,8 +43,6 @@ export const fetchQuizById = async (id: string) => {
 
 export const fetchQuizByQuery = async (query: string) => {
   try {
-    const cookie = await getCookie('session');
-
     const quizes = await fetch(`${serverConfig.backendHost}/api/quiz`, {
       method: 'GET',
       credentials: 'include',
@@ -80,8 +69,6 @@ export const fetchQuizByQuery = async (query: string) => {
 
 export const fetchQuizHistoryByQuizId = async (userId: string, quizId: string) => {
   try {
-    const cookie = await getCookie('session');
-
     const quizHistoryByUser = await fetch(`${serverConfig.backendHost}/api/quiz-history/${userId}`, {
       method: 'GET',
       credentials: 'include',

@@ -1,12 +1,17 @@
+'use client';
+
 import { QuizCollection, QuizInfo } from "@/app/_lib/definition";
 import { poppins } from "../ui/font";
 import Image from "next/image";
 import Link from "next/link";
-import { use } from "react";
 import Pagination from "../pagination";
+import { QuizesSkeleton } from "../skeleton/quizes-skeleton";
 
-export default function Quizes({ quizesPromise, noDataText }: { quizesPromise: Promise<QuizCollection>, noDataText: string }) {
-  const quizesData = use(quizesPromise);
+export default function Quizes({ quizesData, noDataText }: { quizesData: QuizCollection | undefined, noDataText: string }) {
+  if (!quizesData) {
+    return <QuizesSkeleton />
+  }
+
   const totalPages = quizesData.totalPages;
   const quizes = quizesData.quizes;
   if (!quizes || quizes.length === 0) return <h1>{noDataText}</h1>
