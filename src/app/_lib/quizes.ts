@@ -14,7 +14,8 @@ export const fetchQuizes = async (page: number) => {
       method: 'GET',
       headers: {
         Cookie: `session=${cookie}`
-      }
+      },
+      credentials: 'include',
     });
 
     if (!res.ok) {
@@ -38,7 +39,8 @@ export const fetchQuizById = async (id: string) => {
       method: 'GET',
       headers: {
         Cookie: `session=${cookie}`
-      }
+      },
+      credentials: 'include',
     });
 
     if (!res.ok) {
@@ -62,7 +64,8 @@ export const fetchQuizByQuery = async (query: string) => {
       method: 'GET',
       headers: {
         Cookie: `session=${cookie}`
-      }
+      },
+      credentials: 'include',
     });
 
     if (!quizes.ok) {
@@ -92,7 +95,8 @@ export const fetchQuizHistoryByQuizId = async (userId: string, quizId: string) =
       method: 'GET',
       headers: {
         Cookie: `session=${cookie}`
-      }
+      },
+      credentials: 'include',
     });
 
     if (!quizHistoryByUser.ok) {
@@ -117,6 +121,7 @@ export const fetchUserQuizHistory = async (userId: string, page: number) => {
 
     const [quizHistoryRes, quizRes] = await Promise.all([
       fetch(`${serverConfig.backendHost}/api/quiz-history/${userId}`, {
+        credentials: 'include',
         headers: {
           Cookie: `session=${cookie}`
         }
@@ -160,7 +165,8 @@ export const fetchUserQuizData = async (userId: string) => {
       method: 'GET',
       headers: {
         Cookie: `session=${cookie}`
-      }
+      },
+      credentials: 'include',
     });
 
     if (!quizHistory.ok) {

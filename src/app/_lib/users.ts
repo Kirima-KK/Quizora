@@ -11,7 +11,8 @@ export const fetchCurrentUser = async () => {
     method: 'GET',
     headers: {
       Cookie: `session=${cookie}`
-    }
+    },
+    credentials: 'include',
   });
   const data = await res.json();
 
