@@ -105,17 +105,12 @@ export const fetchQuizHistoryByQuizId = async (userId: string, quizId: string) =
 
 export const fetchUserQuizHistory = async (userId: string, page: number) => {
   try {
-    const cookie = await getCookie('session');
-
     const [quizHistoryRes, quizRes] = await Promise.all([
       fetch(`${serverConfig.backendHost}/api/quiz-history/${userId}`, {
         credentials: 'include',
       }),
       fetch(`${serverConfig.backendHost}/api/quiz?page=${page}`, {
         credentials: 'include',
-        headers: {
-          Cookie: `session=${cookie}`
-        }
       })
     ]);
 
@@ -144,8 +139,6 @@ export const fetchUserQuizHistory = async (userId: string, page: number) => {
 
 export const fetchUserQuizData = async (userId: string) => {
   try {
-    const cookie = await getCookie('session');
-
     const quizHistory = await fetch(`${serverConfig.backendHost}/api/quiz-history/${userId}`, {
       method: 'GET',
       credentials: 'include',
