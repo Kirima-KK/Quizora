@@ -1,32 +1,39 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { fetchCurrentUser } from '../_lib/users';
+import serverConfig from '../_config/server.config';
 
 export default function AuthGuard({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
+  const [authorized, setAuthorized] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
+    // This code only runs in the browser
     async function checkAuth() {
       try {
-        // This fetch MUST have credentials: 'include'
-        const user = await fetchCurrentUser();
+        const res = await fetch(`${serverConfig.backendHost}/api/current-user`, {
+          method: 'GET',
+          credentials: 'include',
+        });
 
-        if (!user) {
-          router.push('/login');
-        } else {
+        if (res.ok) {
+          setAuthorized(true);
           setLoading(false);
+        } else {
+          router.push('/login');
         }
       } catch (error) {
-        console.error("Auth check failed", error);
         router.push('/login');
       }
     }
     checkAuth();
   }, [router]);
 
-  if (loading) return <div>Loading...</div>;
+  // During Prerendering (Build), this will return null, preventing the crash
+  if (loading) {
+    return <div className="flex h-screen items-center justify-center">Loading...</div>;
+  }
 
-  return <>{children}</>;
+  return authorized ? <>{children}</> : null;
 }
