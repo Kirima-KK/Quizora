@@ -5,6 +5,7 @@ import Quizes from "@/app/_components/quiz/quizes";
 import ProfileSkeleton from "@/app/_components/skeleton/profile-skeleton";
 import { QuizesSkeleton } from "@/app/_components/skeleton/quizes-skeleton";
 import { Suspense } from "react";
+import AuthGuard from "@/app/_components/auth-guard";
 
 export default async function Page({ searchParams }: { searchParams: { query?: string, page?: number } }) {
   const params = await searchParams;
@@ -12,19 +13,21 @@ export default async function Page({ searchParams }: { searchParams: { query?: s
   const quizes = fetchQuizes(currentPage);
 
   return (
-    <div>
-      <main className="flex flex-col gap-12">
-        <Suspense fallback={<ProfileSkeleton />}>
-          <Profile />
-        </Suspense>
-
-        <div className="flex flex-col gap-4">
-          <h1 className={`${poppins.className} text-[var(--theme-blue)] font-bold text-base md:text-2xl`}>Featured Quizes</h1>
-          <Suspense fallback={<QuizesSkeleton />}>
-            <Quizes quizesPromise={quizes} noDataText="No quiz found." />
+    <AuthGuard>
+      <div>
+        <main className="flex flex-col gap-12">
+          <Suspense fallback={<ProfileSkeleton />}>
+            <Profile />
           </Suspense>
-        </div>
-      </main>
-    </div>
+
+          <div className="flex flex-col gap-4">
+            <h1 className={`${poppins.className} text-[var(--theme-blue)] font-bold text-base md:text-2xl`}>Featured Quizes</h1>
+            <Suspense fallback={<QuizesSkeleton />}>
+              <Quizes quizesPromise={quizes} noDataText="No quiz found." />
+            </Suspense>
+          </div>
+        </main>
+      </div>
+    </AuthGuard>
   );
 }
