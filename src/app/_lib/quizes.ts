@@ -12,9 +12,6 @@ export const fetchQuizes = async (page: number) => {
 
     const res = await fetch(`${serverConfig.backendHost}/api/quiz?page=${page}`, {
       method: 'GET',
-      headers: {
-        Cookie: `session=${cookie}`
-      },
       credentials: 'include',
     });
 
@@ -37,9 +34,6 @@ export const fetchQuizById = async (id: string) => {
 
     const res = await fetch(`${serverConfig.backendHost}/api/quiz/${id}`, {
       method: 'GET',
-      headers: {
-        Cookie: `session=${cookie}`
-      },
       credentials: 'include',
     });
 
@@ -62,9 +56,6 @@ export const fetchQuizByQuery = async (query: string) => {
 
     const quizes = await fetch(`${serverConfig.backendHost}/api/quiz`, {
       method: 'GET',
-      headers: {
-        Cookie: `session=${cookie}`
-      },
       credentials: 'include',
     });
 
@@ -93,9 +84,6 @@ export const fetchQuizHistoryByQuizId = async (userId: string, quizId: string) =
 
     const quizHistoryByUser = await fetch(`${serverConfig.backendHost}/api/quiz-history/${userId}`, {
       method: 'GET',
-      headers: {
-        Cookie: `session=${cookie}`
-      },
       credentials: 'include',
     });
 
@@ -122,9 +110,6 @@ export const fetchUserQuizHistory = async (userId: string, page: number) => {
     const [quizHistoryRes, quizRes] = await Promise.all([
       fetch(`${serverConfig.backendHost}/api/quiz-history/${userId}`, {
         credentials: 'include',
-        headers: {
-          Cookie: `session=${cookie}`
-        }
       }),
       fetch(`${serverConfig.backendHost}/api/quiz?page=${page}`, {
         credentials: 'include',
@@ -163,9 +148,6 @@ export const fetchUserQuizData = async (userId: string) => {
 
     const quizHistory = await fetch(`${serverConfig.backendHost}/api/quiz-history/${userId}`, {
       method: 'GET',
-      headers: {
-        Cookie: `session=${cookie}`
-      },
       credentials: 'include',
     });
 
