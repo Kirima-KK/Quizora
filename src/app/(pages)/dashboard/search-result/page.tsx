@@ -1,6 +1,5 @@
-export const dynamic = 'force-dynamic';
-
 'use client';
+export const dynamic = 'force-dynamic';
 
 import { fetchQuizByQuery } from "@/app/_lib/quizes";
 import { poppins } from "@/app/_components/ui/font";
