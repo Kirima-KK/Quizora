@@ -1,7 +1,7 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import SideNav from "@/app/_components/dashboard/sidenav/sidenav";
 import '@testing-library/jest-dom'
-import { useLogout } from "@/app/hooks/useSubmit";
+import { useLogout } from "@/app/_hooks/useSubmit";
 import NavLinks from "@/app/_components/dashboard/sidenav/nav-links";
 
 //Mock next/link
@@ -31,24 +31,24 @@ jest.mock('next/navigation', () => ({
 }));
 
 // Mock icons
-jest.mock('@/app/assets/icons/ic_round-space-dashboard.svg', () => ({
+jest.mock('@/app/_assets/icons/ic_round-space-dashboard.svg', () => ({
   __esModule: true,
   default: (props: any) => <div data-testid='dashboard-icon' {...props}>Dashboard Icon</div>
 }));
 
-jest.mock('@/app/assets/icons/ic_twotone-history.svg', () => ({
+jest.mock('@/app/_assets/icons/ic_twotone-history.svg', () => ({
   __esModule: true,
   default: (props: any) => <div data-testid='history-icon' {...props}>History Icon</div>
 }));
 
 // Mock logout icon
-jest.mock("@/app/assets/icons/ri_logout-box-fill.svg", () => ({
+jest.mock("@/app/_assets/icons/ri_logout-box-fill.svg", () => ({
   __esModule: true,
   default: () => <svg data-testid="logout-icon" />,
 }));
 
 // Mock useLogout
-jest.mock("@/app/hooks/useSubmit", () => ({
+jest.mock("@/app/_hooks/useSubmit", () => ({
   useLogout: jest.fn(),
 }));
 
@@ -68,10 +68,10 @@ describe("Side Navigation Component", () => {
   it('renders link to / from logo', () => {
     render(<SideNav />);
     const links = screen.getAllByTestId('link');
-    const link = links.find(link => link.getAttribute('href') === '/');
+    const link = links.find(link => link.getAttribute('href') === '/dashboard');
     const hrefs = links.map(link => link.getAttribute('href'));
 
-    expect(hrefs).toContain('/');
+    expect(hrefs).toContain('/dashboard');
 
     expect(link).toContainElement(
       screen.getByTestId("logo-image")

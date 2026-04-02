@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import AuthGuard from "@/app/_components/auth-guard";
 import { QuizCollection } from "@/app/_lib/definition";
 import { QuizesSkeleton } from "@/app/_components/skeleton/quizes-skeleton";
-import { useParams, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 
 export default function Page() {
   const [quizes, setQuizes] = useState<QuizCollection>();

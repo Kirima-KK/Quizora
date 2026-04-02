@@ -1,6 +1,7 @@
-import { render, screen } from "@testing-library/react";
-import Page from "@/app/page";
+import { fireEvent, render, screen } from "@testing-library/react";
+import Landing from "@/app/_components/home/landing";
 import '@testing-library/jest-dom'
+import { useRouter } from 'next/navigation';
 
 // Mock SVG logo
 jest.mock('@/app/assets/icons/quizora-white.svg', () => ({
@@ -19,18 +20,28 @@ jest.mock("next/link", () => {
   );
 });
 
+// Mock useRouter 
+jest.mock('next/navigation', () => ({
+  __esModule: true,
+  useRouter: jest.fn(),
+}));
+
 describe("Landing Page", () => {
   it("renders the logo", () => {
-    render(<Page />);
+    render(<Landing />);
     expect(screen.getByTestId("logo")).toBeInTheDocument();
   });
 
   it("link to /login", () => {
-    render(<Page />);
-    const link = screen.getByTestId("link");
-    expect(link).toHaveAttribute("href", "/login");
-    expect(link).toContainElement(
-      screen.getByRole("button", { name: /login/i })
-    );
+    const mockPush = jest.fn();
+    (useRouter as jest.Mock).mockReturnValue({
+      push: mockPush,
+    });
+
+    render(<Landing />);
+    fireEvent.click(screen.getByRole("button", { name: /login/i }));
+    
+    expect(mockPush).toHaveBeenCalledWith("/login");
+    screen.getByRole("button", { name: /login/i })
   });
 });

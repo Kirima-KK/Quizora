@@ -10,7 +10,7 @@ import { QuizCollection } from "@/app/_lib/definition";
 import { QuizesSkeleton } from "@/app/_components/skeleton/quizes-skeleton";
 import { useSearchParams } from "next/navigation";
 
-export default function QuizHistory({ searchParams }: { searchParams: { query?: string, page?: number } }) {
+export default function QuizHistory() {
   const [quizesHistory, setQuizesHistory] = useState<QuizCollection>();
   const [loading, setLoading] = useState(true);
 

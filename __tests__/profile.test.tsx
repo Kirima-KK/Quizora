@@ -1,17 +1,15 @@
 import Profile from "@/app/_components/dashboard/profile/profile";
+import { fetchCurrentUser } from "@/app/_lib/users";
 import '@testing-library/jest-dom';
 import { render, screen } from "@testing-library/react";
 
 // Mock fetchCurrentUser
-jest.mock("@/app/lib/users", () => ({
-  fetchCurrentUser: jest.fn(() => Promise.resolve({
-    firstName: "Luna",
-    lastName: "Duck",
-  }))
+jest.mock("@/app/_lib/users", () => ({
+  fetchCurrentUser: jest.fn(),
 }));
 
 // Mock fetchUserQuizData
-jest.mock("@/app/lib/quizes", () => ({
+jest.mock("@/app/_lib/quizes", () => ({
   fetchUserQuizData: jest.fn(() => Promise.resolve({
     quizPassed: 3,
     correctAnswers: 30
@@ -25,39 +23,54 @@ jest.mock("next/image", () => ({
 }));
 
 //Mock Icons
-jest.mock("@/app/assets/icons/akar-icons_circle-check-fill.svg", () => ({
+jest.mock("@/app/_assets/icons/akar-icons_circle-check-fill.svg", () => ({
   __esModule: true,
   default: (props: any) => <div data-testid='correct-icon' {...props} >CorrectIcon</div>
 }));
 
-jest.mock("@/app/assets/icons/ant-design_flag-filled.svg", () => ({
+jest.mock("@/app/_assets/icons/ant-design_flag-filled.svg", () => ({
   __esModule: true,
   default: (props: any) => <div data-testid='flag-icon' {...props} >FlagIcon</div>
 }));
 
-describe("Profile Component", () => {
-  it("render user image", async () => {
-    const ui = await Profile();
-    render(ui);
+// Mock skeleton
+jest.mock("@/app/_components/skeleton/profile-skeleton", () => ({
+  __esModule: true,
+  default: () => <div data-testid="skeleton" />
+}));
 
-    const userImage = screen.getByAltText((text) => text.includes("profile"));
+describe("Profile Component", () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    (fetchCurrentUser as jest.Mock).mockResolvedValue({
+      _id: "123",
+      name: "Test User",
+      firstName: "Test",
+      lastName: "User",
+      image: "/avatar.png"
+    });
+  });
+
+  it("render user image", async () => {
+    render(<Profile />);
+
+    const userImage = await screen.findByAltText((text) => text.includes("profile"));
     expect(userImage).toBeInTheDocument();
   });
 
   it("render user name", async () => {
-    const ui = await Profile();
-    render(ui);
+    render(<Profile />);
 
-    const name = screen.getByText((text) => text.includes("Luna"));
+    const name = await screen.findByText((text) => text.includes("Test"));
     expect(name).toBeInTheDocument();
   });
 
   it("render quiz passed and correct answers", async () => {
-    const ui = await Profile();
-    render(ui);
+    render(<Profile />);
 
-    const quizPassed = screen.getByText("3");
-    const correctAnswers = screen.getByText("30");
+    const quizPassed = await screen.findByText("3");
+    const correctAnswers = await screen.findByText("30");
     expect(quizPassed).toBeInTheDocument();
     expect(correctAnswers).toBeInTheDocument();
   });
