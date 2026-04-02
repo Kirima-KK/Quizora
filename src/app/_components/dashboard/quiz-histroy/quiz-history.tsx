@@ -10,7 +10,7 @@ import { QuizCollection } from "@/app/_lib/definition";
 import { QuizesSkeleton } from "@/app/_components/skeleton/quizes-skeleton";
 import { useSearchParams } from "next/navigation";
 
-export default function QuizHistory() {
+function QuizHistoryContent() {
   const [quizesHistory, setQuizesHistory] = useState<QuizCollection>();
   const [loading, setLoading] = useState(true);
 
@@ -41,11 +41,19 @@ export default function QuizHistory() {
   }, [currentPage]);
 
   return (
+    <div className={`${poppins.className} flex flex-col gap-4`}>
+      <h1 className="text-[var(--theme-blue)] font-bold text-base md:text-2xl">Quiz History</h1>
+      {loading || !quizesHistory ? <QuizesSkeleton /> : <Quizes quizesData={quizesHistory} noDataText="No quiz history found." />}
+    </div>
+  );
+}
+
+export default function QuizHistory() {
+  return (
     <AuthGuard>
-      <div className={`${poppins.className} flex flex-col gap-4`}>
-        <h1 className="text-[var(--theme-blue)] font-bold text-base md:text-2xl">Quiz History</h1>
-        {loading || !quizesHistory ? <QuizesSkeleton /> : <Quizes quizesData={quizesHistory} noDataText="No quiz history found." />}
-      </div>
+      <Suspense fallback={<QuizesSkeleton />}>
+        <QuizHistoryContent />
+      </Suspense>
     </AuthGuard>
   );
 }
