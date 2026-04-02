@@ -26,8 +26,10 @@ export default function QuizHistory() {
         const user = await fetchCurrentUser();
 
         // Fetch the user's quizes history
-        const quizesHistory = await fetchUserQuizHistory(user._id, currentPage);
-        setQuizesHistory(quizesHistory);
+        if (user?._id) {
+          const history = await fetchUserQuizHistory(user._id, currentPage);
+          setQuizesHistory(history);
+        }
       } catch (error) {
         console.error("Failed to load quiz history data:", error);
       } finally {
