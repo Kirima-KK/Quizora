@@ -27,9 +27,9 @@ export default function Avatar() {
     }
 
     loadUserData();
-  }, []);
+  }, [user?._id]);
 
-  if (!user) {
+  if (!user || loading) {
     return <AvatarSkeleton />;
   }
 

@@ -35,7 +35,7 @@ export default function Profile() {
     }
 
     loadProfileData();
-  }, []); // Empty dependency array means this runs once on mount
+  }, []);
 
   if (loading) {
     return <ProfileSkeleton />;

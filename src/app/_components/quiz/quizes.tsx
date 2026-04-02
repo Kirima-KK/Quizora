@@ -5,20 +5,15 @@ import { poppins } from "../ui/font";
 import Image from "next/image";
 import Link from "next/link";
 import Pagination from "../pagination";
-import { QuizesSkeleton } from "../skeleton/quizes-skeleton";
 
-export default function Quizes({ quizesData, noDataText }: { quizesData: QuizCollection | undefined, noDataText: string }) {
-  if (!quizesData) {
-    return <QuizesSkeleton />
-  }
-
+export default function Quizes({ quizesData, noDataText }: { quizesData: QuizCollection, noDataText: string }) {
   const totalPages = quizesData.totalPages;
   const quizes = quizesData.quizes;
   if (!quizes || quizes.length === 0) return <h1>{noDataText}</h1>
 
   return (
     <div className={`flex flex-col gap-6`}>
-      <div className="flex flex-col md:grid md:grid-cols-3 gap-8 ">
+      <div className="flex flex-col grow w-64 md:w-380 md:grid md:grid-cols-3 gap-8 ">
         {
           quizes.map((quiz) => {
             return (
