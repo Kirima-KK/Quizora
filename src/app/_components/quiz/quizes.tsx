@@ -6,9 +6,9 @@ import Image from "next/image";
 import Link from "next/link";
 import Pagination from "../pagination";
 
-export default function Quizes({ quizesData, noDataText }: { quizesData: QuizCollection, noDataText: string }) {
-  const totalPages = quizesData.totalPages;
-  const quizes = quizesData.quizes;
+export default function Quizes({ quizesData, noDataText }: { quizesData?: QuizCollection, noDataText: string }) {
+  const totalPages = quizesData?.totalPages || 1;
+  const quizes = quizesData?.quizes;
   if (!quizes || quizes.length === 0) return <h1>{noDataText}</h1>
 
   return (
