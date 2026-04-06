@@ -39,7 +39,7 @@ function SearchResultContent() {
     return () => {
       isCurrent = false;
     };
-  }, [page]);
+  }, [page, query]);
 
   return (
     <div className={`${poppins.className} flex flex-col gap-4`}>
