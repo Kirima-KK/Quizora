@@ -11,27 +11,35 @@ import { QuizesSkeleton } from "@/app/_components/skeleton/quizes-skeleton";
 
 function SearchResultContent() {
   const params = useSearchParams();
+  const page = Number(params.get('page')) || 1;
   const query = params.get('query') || '';
   const [quizes, setQuizes] = useState<QuizCollection>();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    let isCurrent = true; // Prevents race conditions
+
     async function loadSearchResultData() {
       try {
         setLoading(true);
+        setQuizes(undefined);
 
         // Fetch the quizes data
-        const quizes = await fetchQuizByQuery(query);
-        setQuizes(quizes);
+        const quizes = await fetchQuizByQuery(page, query);
+        if (isCurrent) setQuizes(quizes);
       } catch (error) {
         console.error("Failed to load search result data:", error);
       } finally {
-        setLoading(false);
+        if (isCurrent) setLoading(false);
       }
     }
 
     loadSearchResultData();
-  }, []);
+
+    return () => {
+      isCurrent = false;
+    };
+  }, [page]);
 
   return (
     <div className={`${poppins.className} flex flex-col gap-4`}>

@@ -35,7 +35,7 @@ export default function Profile() {
     }
 
     loadProfileData();
-  }, []);
+  }, [user?._id]);
 
   if (loading) {
     return <ProfileSkeleton />;

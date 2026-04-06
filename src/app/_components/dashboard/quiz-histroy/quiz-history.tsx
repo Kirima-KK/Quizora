@@ -18,9 +18,12 @@ function QuizHistoryContent() {
   const currentPage = Number(params.get('page')) || 1;
 
   useEffect(() => {
+    let isCurrent = true; // Prevents race conditions
+
     async function loadQuizHistoryData() {
       try {
         setLoading(true);
+        setQuizesHistory(undefined);
 
         // Fetch the user data
         const user = await fetchCurrentUser();
@@ -28,22 +31,26 @@ function QuizHistoryContent() {
         // Fetch the user's quizes history
         if (user?._id) {
           const history = await fetchUserQuizHistory(user._id, currentPage);
-          setQuizesHistory(history);
+          if (isCurrent) setQuizesHistory(history);
         }
       } catch (error) {
         console.error("Failed to load quiz history data:", error);
       } finally {
-        setLoading(false);
+        if (isCurrent) setLoading(false);
       }
     }
 
     loadQuizHistoryData();
+
+    return () => {
+      isCurrent = false;
+    };
   }, [currentPage]);
 
   return (
     <div className={`${poppins.className} flex flex-col gap-4`}>
       <h1 className="text-[var(--theme-blue)] font-bold text-base md:text-2xl">Quiz History</h1>
-      {loading || !quizesHistory ? <QuizesSkeleton /> : <Quizes quizesData={quizesHistory} noDataText="No quiz history found." />}
+      {loading ? <QuizesSkeleton /> : <Quizes quizesData={quizesHistory} noDataText="No quiz history found." />}
     </div>
   );
 }

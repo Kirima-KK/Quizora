@@ -18,6 +18,7 @@ export default function SearchBar({ placeholder }: { placeholder: string }) {
       params.delete('query');
     } else {
       params.set('query', term);
+      params.set('page', "1");
     }
 
     replace(`${pathname}?${params.toString()}`);

@@ -41,9 +41,9 @@ export const fetchQuizById = async (id: string) => {
   }
 }
 
-export const fetchQuizByQuery = async (query: string) => {
+export const fetchQuizByQuery = async (page: number, query: string) => {
   try {
-    const quizes = await fetch(`${serverConfig.backendHost}/api/quiz`, {
+    const quizes = await fetch(`${serverConfig.backendHost}/api/quiz?page=${page}&query=${query}`, {
       method: 'GET',
       credentials: 'include',
     });
@@ -55,11 +55,7 @@ export const fetchQuizByQuery = async (query: string) => {
 
     const result = await quizes.json();
 
-    const filteredResult: QuizInfo[] = result.quizes.filter((quiz: QuizInfo) => quiz.name.toLowerCase().includes(query) || quiz.description.toLowerCase().includes(query));
-
-    const ITEMS_PER_PAGE = Number(process.env.ITEMS_PER_PAGE);
-    const totalPages = Math.ceil(filteredResult.length / ITEMS_PER_PAGE);
-    const filteredQuiz: QuizCollection = { quizes: filteredResult, totalPages: totalPages };
+    const filteredQuiz: QuizCollection = { quizes: result.quizes, totalPages: result.totalPages };
     return filteredQuiz;
   } catch (err) {
     console.error(err);

@@ -19,21 +19,28 @@ function DashboardContent() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    let isCurrent = true; // Prevents race conditions
+
     async function loadDashboardData() {
       try {
         setLoading(true);
+        setQuizes(undefined);
 
         // Fetch the quizes data using the current page
         const quizes = await fetchQuizes(currentPage);
-        setQuizes(quizes);
+        if (isCurrent) setQuizes(quizes);
       } catch (error) {
         console.error("Failed to load dashboard data:", error);
       } finally {
-        setLoading(false);
+        if (isCurrent) setLoading(false);
       }
     }
 
     loadDashboardData();
+
+    return () => {
+      isCurrent = false;
+    };
   }, [currentPage]);
 
   return (
@@ -43,7 +50,7 @@ function DashboardContent() {
 
         <div className="flex flex-col gap-4">
           <h1 className={`${poppins.className} text-[var(--theme-blue)] font-bold text-base md:text-2xl`}>Featured Quizes</h1>
-          {loading || !quizes ? <QuizesSkeleton /> : <Quizes quizesData={quizes} noDataText="No quiz found." />}
+          {loading ? <QuizesSkeleton /> : <Quizes quizesData={quizes} noDataText="No quiz found." />}
         </div>
       </main>
     </div>
