@@ -1,7 +1,7 @@
 import { QuizPanel } from "@/app/_components/quiz/quiz-panel";
 import "@testing-library/jest-dom";
 import { fireEvent, render, screen } from "@testing-library/react";
-import { useQuizSubmit } from "@/app/hooks/useSubmit";
+import { useQuizSubmit } from "@/app/_hooks/useSubmit";
 
 const userData = {
   _id: "test",
@@ -88,11 +88,11 @@ jest.mock("next/navigation", () => ({
   useParams: () => ({ id: "quiz-test" })
 }));
 
-jest.mock("@/app/hooks/useSubmit", () => ({
+jest.mock("@/app/_hooks/useSubmit", () => ({
   useQuizSubmit: jest.fn()
 }));
 
-jest.mock("@/app/ui/quiz/quiz-confirm-panel", () => ({
+jest.mock("@/app/_components/quiz/quiz-confirm-panel.tsx", () => ({
   __esModule: true,
   QuizConfirmPanel: ({ onConfirm, onClose }: any) => (
     <div data-testid="quiz-confirm">
@@ -102,7 +102,7 @@ jest.mock("@/app/ui/quiz/quiz-confirm-panel", () => ({
   ),
 }));
 
-jest.mock("@/app/ui/quiz/quiz-confirm-review", () => ({
+jest.mock("@/app/_components/quiz/quiz-confirm-review.tsx", () => ({
   __esModule: true,
   QuizConfirmReviewPanel: ({ onReview }: any) => (
     <div data-testid="quiz-confirm-review">

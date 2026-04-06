@@ -1,23 +1,23 @@
 import '@testing-library/jest-dom';
 import { act, fireEvent, render, renderHook, screen, waitFor } from '@testing-library/react';
 import { Login } from '@/app/_components/login';
-import { useLoginSubmit } from '@/app/hooks/useSubmit';
+import { useLoginSubmit } from '@/app/_hooks/useSubmit';
 
 //Mock White Logo
-jest.mock('@/app/assets/icons/quizora-white.svg', () => ({
+jest.mock('@/app/_assets/icons/quizora-white.svg', () => ({
   __esModule: true,
   default: (props: any) => (<div data-testid="white-logo" {...props}>WhiteLogo</div>)
 }));
 
 //Mock Blue Logo
-jest.mock('@/app/assets/icons/quizora-blue.svg', () => ({
+jest.mock('@/app/_assets/icons/quizora-blue.svg', () => ({
   __esModule: true,
   default: (props: any) => (<div data-testid="blue-logo" {...props}>BlueLogo</div>)
 }));
 
 //Mock useLoginSubmit hook
 const mockSubmit = jest.fn();
-jest.mock('@/app/hooks/useSubmit', () => ({
+jest.mock('@/app/_hooks/useSubmit', () => ({
   useLoginSubmit: jest.fn(),
 }));
 

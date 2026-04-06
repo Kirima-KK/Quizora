@@ -15,7 +15,7 @@ jest.mock("next/image", () => ({
 }));
 
 // Mock Quiz Panel
-jest.mock("@/app/ui/quiz/quiz-panel", () => ({
+jest.mock("@/app/_components/quiz/quiz-panel.tsx", () => ({
   __esModule: true,
   QuizPanel: () => <div data-testid="quiz-panel">Quiz Panel</div>
 }));
@@ -136,9 +136,9 @@ describe("Quiz info", () => {
   it("renders quiz info", async () => {
     await act(async () => {
       render(<Quiz
-        userPromise={Promise.resolve(userData)}
-        quizPromise={Promise.resolve(quizData)}
-        quizHistoryPromise={Promise.resolve(quizHistoryData)}
+        user={userData}
+        quiz={quizData}
+        quizHistory={quizHistoryData}
       />);
     });
 
@@ -164,9 +164,9 @@ describe("Quiz info", () => {
   it("render start button", async () => {
     await act(async () => {
       render(<Quiz
-        userPromise={Promise.resolve(userData)}
-        quizPromise={Promise.resolve(quizData)}
-        quizHistoryPromise={Promise.resolve(quizHistoryData)}
+        user={userData}
+        quiz={quizData}
+        quizHistory={quizHistoryData}
       />);
     });
 
@@ -177,9 +177,9 @@ describe("Quiz info", () => {
   it("show quiz panel on start pressed", async () => {
     await act(async () => {
       render(<Quiz
-        userPromise={Promise.resolve(userData)}
-        quizPromise={Promise.resolve(quizData)}
-        quizHistoryPromise={Promise.resolve(quizHistoryData)}
+        user={userData}
+        quiz={quizData}
+        quizHistory={quizHistoryData}
       />);
     });
 

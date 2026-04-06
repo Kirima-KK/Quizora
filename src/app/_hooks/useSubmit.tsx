@@ -23,8 +23,10 @@ export const useLoginSubmit = () => {
 
       setResponse({
         type: 'success',
-        message: `Thanks for your submission ${res.email}, we will get back to you shortly!.`
+        message: `Login Success.`
       });
+
+      console.log("DEBUG: Redirecting to dashboard...");
 
       router.push('/dashboard');
     } catch (e) {
@@ -33,6 +35,8 @@ export const useLoginSubmit = () => {
         message: 'Email or password is incorrect.'
       });
 
+      setIsLoading(false);
+    } finally {
       setIsLoading(false);
     }
   }
@@ -59,14 +63,15 @@ export const useLogout = () => {
 
       setResponse({
         type: 'success',
-        message: `Thanks for your submission ${res.email}, we will get back to you shortly!.`
+        message: `Logout Success.`
       });
 
       router.push('/');
+      router.refresh();
     } catch (e) {
       setResponse({
         type: 'error',
-        message: 'Email or password is incorrect.'
+        message: 'Logout Failed.'
       });
 
       setIsLoading(false);

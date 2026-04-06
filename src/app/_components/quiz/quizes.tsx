@@ -1,19 +1,19 @@
+'use client';
+
 import { QuizCollection, QuizInfo } from "@/app/_lib/definition";
 import { poppins } from "../ui/font";
 import Image from "next/image";
 import Link from "next/link";
-import { use } from "react";
 import Pagination from "../pagination";
 
-export default function Quizes({ quizesPromise, noDataText }: { quizesPromise: Promise<QuizCollection>, noDataText: string }) {
-  const quizesData = use(quizesPromise);
-  const totalPages = quizesData.totalPages;
-  const quizes = quizesData.quizes;
+export default function Quizes({ quizesData, noDataText }: { quizesData?: QuizCollection, noDataText: string }) {
+  const totalPages = quizesData?.totalPages || 1;
+  const quizes = quizesData?.quizes;
   if (!quizes || quizes.length === 0) return <h1>{noDataText}</h1>
 
   return (
     <div className={`flex flex-col gap-6`}>
-      <div className="flex flex-col md:grid md:grid-cols-3 gap-8 ">
+      <div className="flex flex-col grow w-64 md:w-380 md:grid md:grid-cols-3 gap-8 ">
         {
           quizes.map((quiz) => {
             return (

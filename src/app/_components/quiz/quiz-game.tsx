@@ -3,26 +3,22 @@
 import { ProfileInfo, Question, QuizHistoryItem, QuizInfo } from "@/app/_lib/definition";
 import Image from 'next/image';
 import { QuizPanel } from "./quiz-panel";
-import { use, useState } from "react";
+import { useState } from "react";
 import { poppins } from "../ui/font";
 import { isoToDateFormat } from "@/app/_lib/utils";
 import { useRouter } from "next/navigation";
 
 export function Quiz({
-  userPromise,
-  quizPromise,
-  quizHistoryPromise
+  user,
+  quiz,
+  quizHistory
 }: {
-  userPromise: Promise<ProfileInfo>
-  quizPromise: Promise<QuizInfo>,
-  quizHistoryPromise: Promise<QuizHistoryItem[]>,
+  user: ProfileInfo
+  quiz: QuizInfo,
+  quizHistory: QuizHistoryItem[],
 }) {
   const [showPanel, setShowPanel] = useState(false);
   const [questions, setQuestions] = useState<Question[]>([]);
-
-  const user = use(userPromise);
-  const quiz = use(quizPromise);
-  const quizHistory = use(quizHistoryPromise);
 
   const router = useRouter();
 
