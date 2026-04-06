@@ -1,20 +1,17 @@
-import { headers } from "next/headers";
 import { QuizCollection, QuizHistoryItem, QuizInfo, UserResults } from "./definition";
+import serverConfig from "../_config/server.config";
 
 export const fetchQuizes = async (page: number) => {
   try {
-    const host = (await headers()).get("host");
-    const protocol = process.env.NODE_ENV === "production" ? "https" : "http";
-
-    const baseUrl = `${protocol}://${host}`;
-
-    const res = await fetch(`${baseUrl}/api/quiz?page=${page}`);
+    const res = await fetch(`${serverConfig.backendHost}/api/quiz?page=${page}`, {
+      method: 'GET',
+      credentials: 'include',
+    });
 
     if (!res.ok) {
       const text = await res.text();
       throw new Error(`Request failed: ${text}`);
     }
-    console.log(`baseUrl: ${baseUrl}`);
     const data = await res.json();
 
     return data;
@@ -26,11 +23,10 @@ export const fetchQuizes = async (page: number) => {
 
 export const fetchQuizById = async (id: string) => {
   try {
-    const host = (await headers()).get("host");
-    const protocol = process.env.NODE_ENV === "production" ? "https" : "http";
-
-    const baseUrl = `${protocol}://${host}`;
-    const res = await fetch(`${baseUrl}/api/quiz/${id}`);
+    const res = await fetch(`${serverConfig.backendHost}/api/quiz/${id}`, {
+      method: 'GET',
+      credentials: 'include',
+    });
 
     if (!res.ok) {
       const text = await res.text();
@@ -45,14 +41,12 @@ export const fetchQuizById = async (id: string) => {
   }
 }
 
-export const fetchQuizByQuery = async (query: string) => {
+export const fetchQuizByQuery = async (page: number, query: string) => {
   try {
-    const host = (await headers()).get("host");
-    const protocol = process.env.NODE_ENV === "production" ? "https" : "http";
-
-    const baseUrl = `${protocol}://${host}`;
-
-    const quizes = await fetch(`${baseUrl}/api/quiz`);
+    const quizes = await fetch(`${serverConfig.backendHost}/api/quiz?page=${page}&query=${query}`, {
+      method: 'GET',
+      credentials: 'include',
+    });
 
     if (!quizes.ok) {
       const text = await quizes.text();
@@ -61,11 +55,7 @@ export const fetchQuizByQuery = async (query: string) => {
 
     const result = await quizes.json();
 
-    const filteredResult: QuizInfo[] = result.quizes.filter((quiz: QuizInfo) => quiz.name.toLowerCase().includes(query) || quiz.description.toLowerCase().includes(query));
-
-    const ITEMS_PER_PAGE = Number(process.env.ITEMS_PER_PAGE);
-    const totalPages = Math.ceil(filteredResult.length / ITEMS_PER_PAGE);
-    const filteredQuiz: QuizCollection = { quizes: filteredResult, totalPages: totalPages };
+    const filteredQuiz: QuizCollection = { quizes: result.quizes, totalPages: result.totalPages };
     return filteredQuiz;
   } catch (err) {
     console.error(err);
@@ -75,12 +65,10 @@ export const fetchQuizByQuery = async (query: string) => {
 
 export const fetchQuizHistoryByQuizId = async (userId: string, quizId: string) => {
   try {
-    const host = (await headers()).get("host");
-    const protocol = process.env.NODE_ENV === "production" ? "https" : "http";
-
-    const baseUrl = `${protocol}://${host}`;
-
-    const quizHistoryByUser = await fetch(`${baseUrl}/api/quiz-history/${userId}`);
+    const quizHistoryByUser = await fetch(`${serverConfig.backendHost}/api/quiz-history/${userId}`, {
+      method: 'GET',
+      credentials: 'include',
+    });
 
     if (!quizHistoryByUser.ok) {
       const text = await quizHistoryByUser.text();
@@ -88,7 +76,7 @@ export const fetchQuizHistoryByQuizId = async (userId: string, quizId: string) =
     }
 
     const data = await quizHistoryByUser.json();
-    const quizHistoryByQuizId = data.quizHistory.filter((quiz: QuizHistoryItem) => quiz.quizId === quizId);
+    const quizHistoryByQuizId = data.quizHistory.quizHistory.filter((quiz: QuizHistoryItem) => quiz.quizId === quizId);
 
     if (quizHistoryByUser.ok && quizHistoryByQuizId) {
       return quizHistoryByQuizId;
@@ -100,14 +88,13 @@ export const fetchQuizHistoryByQuizId = async (userId: string, quizId: string) =
 
 export const fetchUserQuizHistory = async (userId: string, page: number) => {
   try {
-    const host = (await headers()).get("host");
-    const protocol = process.env.NODE_ENV === "production" ? "https" : "http";
-
-    const baseUrl = `${protocol}://${host}`;
-
     const [quizHistoryRes, quizRes] = await Promise.all([
-      fetch(`${baseUrl}/api/quiz-history/${userId}`),
-      fetch(`${baseUrl}/api/quiz?page=${page}`)
+      fetch(`${serverConfig.backendHost}/api/quiz-history/${userId}`, {
+        credentials: 'include',
+      }),
+      fetch(`${serverConfig.backendHost}/api/quiz?page=${page}`, {
+        credentials: 'include',
+      })
     ]);
 
     if (!quizHistoryRes.ok || !quizRes.ok) {
@@ -121,10 +108,9 @@ export const fetchUserQuizHistory = async (userId: string, page: number) => {
       quizRes.json()
     ])
 
-    const quizHistoryId = quizHistory.quizHistory.map((history: QuizHistoryItem) => history.quizId);
-    const filteredQuiz = quizes.quizes.filter((quiz: QuizInfo) => quizHistoryId.includes(quiz._id));
-    const ITEMS_PER_PAGE = Number(process.env.ITEMS_PER_PAGE);
-    const totalPages = Math.ceil(filteredQuiz.length / ITEMS_PER_PAGE);
+    const quizHistoryId = new Set(quizHistory.quizHistory.quizHistory.map((history: QuizHistoryItem) => String(history.quizId)));
+    const filteredQuiz = quizes.quizes.filter((quiz: QuizInfo) => quizHistoryId.has(String(quiz._id)));
+    const totalPages = quizHistory.quizHistory.totalPages;
     const filteredQuizData: QuizCollection = { quizes: filteredQuiz, totalPages: totalPages };
 
     return filteredQuizData;
@@ -136,12 +122,10 @@ export const fetchUserQuizHistory = async (userId: string, page: number) => {
 
 export const fetchUserQuizData = async (userId: string) => {
   try {
-    const host = (await headers()).get("host");
-    const protocol = process.env.NODE_ENV === "production" ? "https" : "http";
-
-    const baseUrl = `${protocol}://${host}`;
-
-    const quizHistory = await fetch(`${baseUrl}/api/quiz-history/${userId}`);
+    const quizHistory = await fetch(`${serverConfig.backendHost}/api/quiz-history/${userId}`, {
+      method: 'GET',
+      credentials: 'include',
+    });
 
     if (!quizHistory.ok) {
       const text = await quizHistory.text();
@@ -151,9 +135,9 @@ export const fetchUserQuizData = async (userId: string) => {
     const data = await quizHistory.json();
     let quizResult: UserResults = { quizPassed: 0, correctAnswers: 0 };
 
-    data.quizHistory.forEach((history: QuizHistoryItem) => {
+    data.quizHistory.quizHistory.forEach((history: QuizHistoryItem) => {
       if (history.quizStatus) quizResult.quizPassed += 1;
-      if(history.score) quizResult.correctAnswers += history.score;
+      if (history.score) quizResult.correctAnswers += history.score;
     });
 
     return quizResult;

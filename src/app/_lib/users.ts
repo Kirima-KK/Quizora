@@ -1,20 +1,9 @@
-import { cookies, headers } from "next/headers";
+import serverConfig from "../_config/server.config";
 
 export const fetchCurrentUser = async () => {
-  const host = (await headers()).get("host");
-  const protocol = process.env.NODE_ENV === "production" ? "https" : "http";
-
-  const baseUrl = `${protocol}://${host}`;
-  const getCookie = async (name: string) => {
-    return (await cookies()).get(name)?.value ?? '';
-  }
-
-  const cookie = await getCookie('session');
-  const token = (await cookies()).get("session")?.value;
-  const res = await fetch(`${baseUrl}/api/user`, {
-    headers: {
-      Cookie: `session=${cookie};`
-    }
+  const res = await fetch(`${serverConfig.backendHost}/api/current-user`, {
+    method: 'GET',
+    credentials: 'include',
   });
   const data = await res.json();
 
@@ -23,5 +12,6 @@ export const fetchCurrentUser = async () => {
   }
   else {
     console.error(data.error);
+    return null;
   }
 }

@@ -27,7 +27,7 @@ export const WhiteButton = ({ info }: { info: ButtonInfo }) => {
             hover:bg-[var(--theme-blue)] hover:text-white`}
         onClick={info.onClick}
       >
-        {info.isLoading ? <Spinner size="lg" className="text-white" /> : info.label}
+        {info.isLoading ? <Spinner size="lg" className="text-[var(--theme-blue)]" /> : info.label}
       </button>
     </>
   );

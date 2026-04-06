@@ -5,7 +5,6 @@ import { useState } from "react";
 import { ButtonInfo, LoginInfo } from "../_lib/definition";
 import * as Yup from 'yup';
 import { useLoginSubmit } from "../_hooks/useSubmit";
-import { Spinner } from '@heroui/react';
 import WhiteLogo from '@/app/_assets/icons/quizora-white.svg';
 import BlueLogo from '@/app/_assets/icons/quizora-blue.svg';
 import { BlueButton } from "./ui/buttons";
