@@ -6,8 +6,6 @@ export async function handleLogin(data: LoginInfo) {
   const email = data.email;
   const password = data.password;
 
-  console.log(`DEBUG:serverConfig.backendHost: ${serverConfig.backendHost}`);
-
   const response = await fetch(`${serverConfig.backendHost}/api/login`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
